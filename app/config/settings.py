@@ -18,6 +18,12 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # instagram/
 ROOT_DIR = os.path.dirname(BASE_DIR)
 
+TEMPLATES_DIR = os.path.join(BASE_DIR, 'templates')
+
+# Static files (CSS, JavaScript, Images)
+# https://docs.djangoproject.com/en/2.2/howto/static-files/
+STATIC_URL = '/static/'
+
 # instagram/.media
 # User-uploaded static files의 기본 경로
 MEDIA_ROOT = os.path.join(ROOT_DIR, '.media')
@@ -25,11 +31,6 @@ MEDIA_ROOT = os.path.join(ROOT_DIR, '.media')
 # 주소 = HOST + MEDIA_URL + FileField의 실제 값
 # http:// localhost:8000 /media/ posts/images/~.~
 MEDIA_URL = '/media/'
-
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/2.2/howto/static-files/
-STATIC_URL = '/static/'
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
@@ -55,7 +56,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'members.apps.MembersConfig',
-    'posts.apps.PostsConfig'
+    'posts.apps.PostsConfig',
+
+    'django_extensions'
 ]
 
 MIDDLEWARE = [
@@ -74,7 +77,7 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
-            os.path.join(BASE_DIR, 'templates')
+            TEMPLATES_DIR
         ],
         'APP_DIRS': True,
         'OPTIONS': {

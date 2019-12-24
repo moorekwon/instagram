@@ -18,10 +18,12 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
 
+from . import views
+
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('posts/', include('posts.urls', namespace='posts')),
-    path('members/', include('members.urls', name='members'))
+    path('', views.index, name='index'),
+    path('members/', include('members.urls'))
 ]
 
 urlpatterns += static(

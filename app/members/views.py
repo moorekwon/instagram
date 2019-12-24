@@ -15,12 +15,14 @@ def login_view(request):
     :param request:
     :return:
     """
-    username = request.POST['username']
-    password = request.POST['password']
-    user = authenticate(request, username=username, password=password)
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(request, username=username, password=password)
 
-    if user is not None:
-        login(request, user)
-        return redirect('members')
-    else:
-        return HttpResponse('Error!')
+        if user:
+            login(request, user)
+            return redirect('index')
+        else:
+            return redirect('index')
+    return render(request, 'members/login.html')
