@@ -18,7 +18,14 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # instagram/
 ROOT_DIR = os.path.dirname(BASE_DIR)
 
+# instagram/app/templates
 TEMPLATES_DIR = os.path.join(BASE_DIR, 'templates')
+
+# 정적 파일 설정 추
+STATIC_DIR = os.path.join(BASE_DIR, 'static')
+STATICFILES_DIRS = [
+    STATIC_DIR
+]
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
@@ -76,9 +83,7 @@ ROOT_URLCONF = 'config.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [
-            TEMPLATES_DIR
-        ],
+        'DIRS': [TEMPLATES_DIR],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

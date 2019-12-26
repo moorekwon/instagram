@@ -12,17 +12,19 @@ def login_view(request):
     name: members:login (url namespace 사용)
 
     POST 요청시, 예제를 보고 적절히 로그인 처리한 후, index로 돌아갈 수 있도록 함
-    :param request:
-    :return:
     """
     if request.method == 'POST':
-        username = request.POST['username']
-        password = request.POST['password']
-        user = authenticate(request, username=username, password=password)
-
+        user = authenticate(request, username=request.POST['username'], password=request.POST['password'])
+        # print(user)
         if user:
             login(request, user)
+            # return render(request, 'index.html')
             return redirect('index')
         else:
-            return redirect('index')
-    return render(request, 'members/login.html')
+            return redirect('members:login')
+            # return render(request, 'members/login.html')
+    else:
+        return render(request, 'members/login.html')
+
+
+
