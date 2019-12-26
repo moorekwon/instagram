@@ -1,7 +1,6 @@
-from django.http import HttpResponse
-from django.shortcuts import render, get_object_or_404, redirect
+from django.shortcuts import render
 
-from .models import Post, PostComment
+from .models import Post
 
 app_name = 'posts'
 
@@ -15,27 +14,14 @@ def post_list(request):
     # URL: /posts/ (posts.urls를 사용, config.urls에서 include)
     # Template: templates/posts/post-list.html
     # <h1>Post List</h1>
-    return render(request, 'posts/post-list.html')
 
+    # 'posts'라는 키로 모든 Post QuerySet을 전달 (순서는 pk 역순)
+    # 전달받은 QuerySet을 순회하며 적절히 Post 내용을 출력
 
+    # posts = Post.objects.all().order_by('-pk')
+    posts = Post.objects.order_by('-pk')
+    context = {
+        'posts': posts
+    }
 
-
-
-
-
-
-
-
-
-
-
-
-    # posts = Post.objects.all()
-    # context = {
-    #     'posts': posts
-    # }
-    #
-    # if request.user:
-    #     return render(request, 'posts/post-list.html', context)
-    # else:
-    #     return render(request, 'index.html')
+    return render(request, 'posts/post-list.html', context)
