@@ -3,28 +3,39 @@ from django.shortcuts import render, get_object_or_404, redirect
 
 from .models import Post, PostComment
 
+app_name = 'posts'
+
 
 def post_list(request):
-    posts = Post.objects.all()
-    context = {
-        'posts': posts
-    }
+    # 1. 로그인 완료 후 이 페이지로 이동
+    # 2. index에 접근할 때 로그인이 되어있다면, 이 페이지로 이동
+    #     로그인이 되어있는지 확인:
+    #         User.is_authenticated가 True인지 체크
 
-    return render(request, 'post/post_list.html', context)
+    # URL: /posts/ (posts.urls를 사용, config.urls에서 include)
+    # Template: templates/posts/post-list.html
+    # <h1>Post List</h1>
+    return render(request, 'posts/post-list.html')
 
 
-def comment_create(request, post_pk):
-    if request.method == 'POST':
-        post = get_object_or_404(Post, pk=post_pk)
-        content = request.POST.get('content')
 
-        if not content:
-            return HttpResponse('댓글 내용을 입력하세요.', status=400)
 
-        PostComment.objects.create(
-            post=post,
-            author=request.user,
-            content=content
-        )
 
-        return redirect('post:post_list')
+
+
+
+
+
+
+
+
+
+    # posts = Post.objects.all()
+    # context = {
+    #     'posts': posts
+    # }
+    #
+    # if request.user:
+    #     return render(request, 'posts/post-list.html', context)
+    # else:
+    #     return render(request, 'index.html')
