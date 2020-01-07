@@ -1,4 +1,45 @@
 {% extends 'base.html' %}
 {% block content %}
-    <h1>post list</h1>
+    {% for post in posts %}
+    <div>{{ post.author }}</div>
+    <div>{{ post.created }}</div>
+<!--    post_like에 POST 요청을 보내는 Form 구현
+        - input을 갖지 않음
+        - csrf_token만 추가
+        - 보내는 곳(action)에 url 태그 적절히 활용
+            ex) /posts/1/like/
+                /posts/2/like/
+            Post의 pk에 따라 위와 같은 URL을 동적으로 생성 -->
+    <form action="{% url 'posts:post-like' pk=post.pk %}" method="post">
+        {% csrf_token %}
+
+<!--    사용가능한 변수
+        - user (User)
+        - post (Post) -->
+
+<!--    Template에서의 메소드 콜
+        post.like_users.all() -> post.like_users.all
+        호출 구문 제외해야 함 -->
+
+<!--    in operator
+        <변수> in <반복가능 개체(QuerySet 등)>
+        -> True/False를 반환 -->
+
+<!--    user와 post.like_users를 적절히 이용
+        현재 request.user가 이 Post의 like_users에 포함되는지 검사
+        아래 if/else/endif 구문이 동작하도록 작성 -->
+
+<!--    user.like_post_set을 이용해서 아래 조건문이 동작하도록 함
+        {# {% if user in post.like_users.all %} #}-->
+        {% if user in post.like_users.all %}
+        <div>좋아요~~</div>
+        {% else %}
+<!--    좋아요 안 눌린 상태-->
+        <div>좋아요 취소.</div>
+        {% endif %}
+
+        <button type="submit">좋아요</button>
+    </form>
+    <hr>
+    {% endfor %}
 {% endblock %}
