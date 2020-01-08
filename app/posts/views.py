@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from django.views.generic.edit import FormView
 
 from .forms import PostCreateForm
 from .models import Post, PostLike, PostImage
@@ -89,7 +90,12 @@ def post_create(request):
 
         # PostImage 생성
         # post와 전달받은 image 사용
-        post_image = PostImage.objects.create(post=post, image=image)
+        # post_image = PostImage.objects.create(post=post, image=image)
+
+        images = request.FILES.getlist('image')
+
+        for image in images:
+            PostImage.objects.create(post=post, image=image)
 
         # 모든 생성이 완료되면 posts:post-list로 redirect
         return redirect('posts:post-list')
@@ -99,3 +105,4 @@ def post_create(request):
             'form': form
         }
         return render(request, 'posts/post-create.html', context)
+

@@ -48,7 +48,11 @@ SECRET_KEY = 'x=z-eaa*r2xlwpxr18b@gaa5li^^r&o3zf!p2fhil5j@vp_(z$'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    'localhost',
+    '127.0.0.1',
+    '172.16.1.116'
+]
 AUTH_USER_MODEL = 'members.User'
 
 
