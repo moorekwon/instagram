@@ -61,18 +61,20 @@
     <button type="submit">좋아요</button>
 </form>
 <br>
-<form action="{% url 'posts:comment-create' post_pk=post.pk%}" method="post">
+<form action="{% url 'posts:comment-create' post_pk=post.pk %}" method="post">
     {% csrf_token %}
+<!--    <input name="hjhg" type="text">-->
     {{ comment_form }}
     <button type="submit">작성</button>
 </form>
 
-{% for post in post.postcomment_set.all %}
- <ul>
-   <li><b>{{ post.author }}</b> <span>{{ post.content }}</span></li>
- </ul>
-{% endfor %}
+<ul>
+    {% for comment in post.postcomment_set.all %}
+    <li><b>{{ comment.author }}</b><span>{{ comment.content }}</span></li>
+    {% endfor %}
+</ul>
 <hr>
+
 
 {% endfor %}
 {% endblock %}
