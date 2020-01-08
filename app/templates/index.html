@@ -19,18 +19,19 @@
 
             <div>또는</div>
 
-            <form action="" method="post">
+            <form action="{% url 'members:signup-view' %}" method="post">
+                {% csrf_token %}
                 <div class="form-group">
-                    <input type="email" class="form-control" placeholder="휴대폰 번호 또는 이메일 주소">
+                    <input name="email" type="email" class="form-control" placeholder="이메일 주소">
                 </div>
                 <div class="form-group">
-                    <input type="text" class="form-control" placeholder="성명">
+                    <input name="name" type="text" class="form-control" placeholder="성명">
                 </div>
                 <div class="form-group">
-                    <input type="text" class="form-control" placeholder="사용자 이름">
+                    <input name="username" type="text" class="form-control" placeholder="사용자 이름">
                 </div>
                 <div class="form-group">
-                    <input type="text" class="form-control" placeholder="비밀번호">
+                    <input name="password" type="text" class="form-control" placeholder="비밀번호">
                 </div>
                 <button type="submit" class="btn btn-primary btn-block">가입</button>
             </form>
@@ -44,4 +45,4 @@
         </div>
     </div>
 </div>
-{% endblock %}호
+{% endblock %}

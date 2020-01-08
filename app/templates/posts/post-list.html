@@ -38,6 +38,10 @@
         <div>좋아요 취소.</div>
         {% endif %}
 
+        {% for user in post.like_users.all %}
+        <div>{{ user }}</div>
+        {% endfor %}
+
         <button type="submit">좋아요</button>
     </form>
     <hr>
