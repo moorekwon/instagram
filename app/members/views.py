@@ -1,4 +1,4 @@
-from django.contrib.auth import authenticate, login, get_user_model
+from django.contrib.auth import authenticate, login, get_user_model, logout
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 
@@ -65,7 +65,7 @@ def signup_view(request):
     #     return redirect('posts:post-list')
 
     # 강사님 답안
-    if User.objects.filter(username=username).exist():
+    if User.objects.filter(username=username).exists():
         return HttpResponse('이미 사용중인 username 입니다.')
     if User.objects.filter(email=email).exists():
         return HttpResponse('이미 사요중인 email 입니다.')
@@ -73,3 +73,16 @@ def signup_view(request):
     user = User.objects.create_user(email=email, username=username, name=name, password=password)
     login(request, user)
     return redirect('posts:post-list')
+
+
+def logout_view(request):
+    """
+    GET 요청으로 처리
+    요청에 있는 사용자를 logout 처리
+    django.contrib.auth.logout 함수를 사용
+
+    URL: /members/logout/
+    Template: 없음
+    """
+    logout(request)
+    return redirect('members:login')

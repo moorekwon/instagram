@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 
-from .models import Post, PostLike
+from .forms import PostCreateForm
+from .models import Post, PostLike, PostImage
 
 app_name = 'posts'
 
@@ -63,3 +64,38 @@ def post_like(request, pk):
         # 생성
         PostLike.objects.create(post=post, user=user)
     return redirect('posts:post-list')
+
+
+def post_create(request):
+    """
+    URL: /posts/create/, name='post-create'
+    Template: /posts/post-create.html
+
+    forms.PostCreateForm 사용
+    :param request:
+    :return:
+    """
+    if request.method == 'POST':
+        # 새 Post 생성
+        # user는 request.user
+        # 전달받는 데이터: image, text
+        user = request.user
+        image = request.FILES['image']
+        text = request.POST['text']
+
+        # Post 생성 (변수명 post 사용)
+        # request.user와 text 사용
+        post = Post.objects.create(author=user, content=text)
+
+        # PostImage 생성
+        # post와 전달받은 image 사용
+        post_image = PostImage.objects.create(post=post, image=image)
+
+        # 모든 생성이 완료되면 posts:post-list로 redirect
+        return redirect('posts:post-list')
+    else:
+        form = PostCreateForm()
+        context = {
+            'form': form
+        }
+        return render(request, 'posts/post-create.html', context)
