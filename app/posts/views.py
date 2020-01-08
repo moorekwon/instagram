@@ -1,8 +1,8 @@
 from django.shortcuts import render, redirect
 from django.views.generic.edit import FormView
 
-from .forms import PostCreateForm
-from .models import Post, PostLike, PostImage
+from .forms import PostCreateForm, CommentCreateForm
+from .models import Post, PostLike, PostImage, PostComment
 
 app_name = 'posts'
 
@@ -22,8 +22,11 @@ def post_list(request):
 
     # posts = Post.objects.all().order_by('-pk')
     posts = Post.objects.order_by('-pk')
+    comment_form = CommentCreateForm()
+
     context = {
-        'posts': posts
+        'posts': posts,
+        'comment_form': comment_form
     }
 
     return render(request, 'posts/post-list.html', context)
@@ -81,7 +84,7 @@ def post_create(request):
         # user는 request.user
         # 전달받는 데이터: image, text
         user = request.user
-        image = request.FILES['image']
+        # image = request.FILES['image']
         text = request.POST['text']
 
         # Post 생성 (변수명 post 사용)
@@ -105,4 +108,26 @@ def post_create(request):
             'form': form
         }
         return render(request, 'posts/post-create.html', context)
+
+
+def comment_create(request, post_pk):
+    # URL: /posts/<int:post_pk>/comments/create/
+    # Template: 없음 (post-list.html에 Form 구현)
+    # post-list.html 내부에서, 각 Post마다 자신에게 연결된 PostComment 목록을 보여줌
+
+    # 보여주는 형식
+    # <ul>
+    #   <li><b>작성자명</b><span>내용</span></li>
+    #   <li><b>작성자명</b><span>내용</span></li>
+    # </ul>
+
+    # Form: post.forms.CommentCreateForm
+
+    if request.method == 'POST':
+        post = Post.objects.get(pk=post_pk)
+        form = CommentCreateForm(data=request.POST)
+
+        if form.is_valid():
+            form.save(post=post, author=request.user)
+        return redirect('posts:post-list')
 
