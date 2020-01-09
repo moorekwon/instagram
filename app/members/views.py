@@ -52,14 +52,21 @@ def login_view(request):
             form.login(request)
             return redirect('posts:post-list')
         # 아이디 혹은 비밀번호가 잘못되면 members:login 페이지로 다시 load
-        else:
-            return redirect('members:login')
+        # else:
+        #     # return redirect('members:login')
+        #
+        #     # form.errors가 살아있는 상태 (form 인스턴스가 유지되고 있음)
+        #     # 아래 코드와 중복..
+        #     context = {
+        #         'form': form
+        #     }
+        #     return render(request, 'members/login.html', context)
+    else:
+        form = LoginForm()
 
-    form = LoginForm()
     context = {
         'form': form
     }
-
     return render(request, 'members/login.html', context)
 
 
