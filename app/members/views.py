@@ -35,13 +35,23 @@ def login_view(request):
     #     return render(request, 'members/login.html')
 
     if request.method == 'POST':
-        username = request.POST['username']
-        password = request.POST['password']
-        user = authenticate(request, username=username, password=password)
+        # username = request.POST['username']
+        # password = request.POST['password']
+        # user = authenticate(request, username=username, password=password)
 
-        if user:
-            login(request, user)
+        form = LoginForm(request.POST)
+
+        if form.is_valid():
+            # user = authenticate(request)
+            # if user:
+            #     login(request, user)
+            #     return redirect('posts:post-list')
+            # else:
+            #     return redirect('members:login')
+
+            form.login(request)
             return redirect('posts:post-list')
+        # 아이디 혹은 비밀번호가 잘못되면 members:login 페이지로 다시 load
         else:
             return redirect('members:login')
 
