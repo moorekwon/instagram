@@ -4,6 +4,8 @@ from django.shortcuts import render, redirect
 
 # from .models import User
 # 장고 기본 유저나 Custom 유저 모델 중, 사용중인 User 모델
+from members.forms import LoginForm
+
 User = get_user_model()
 
 
@@ -17,20 +19,38 @@ def login_view(request):
 
     POST 요청시, 예제를 보고 적절히 로그인 처리한 후, index로 돌아갈 수 있도록 함
     """
+    # if request.method == 'POST':
+    #     username = request.POST['username']
+    #     password = request.POST['password']
+    #     user = authenticate(request, username=username, password=password)
+    #     if user:
+    #         login(request, user)
+    #         # return render(request, 'index.html')
+    #         # return redirect('index')
+    #         return redirect('posts:post-list')
+    #     else:
+    #         return redirect('members:login')
+    #         # return render(request, 'members/login.html')
+    # else:
+    #     return render(request, 'members/login.html')
+
     if request.method == 'POST':
         username = request.POST['username']
         password = request.POST['password']
         user = authenticate(request, username=username, password=password)
+
         if user:
             login(request, user)
-            # return render(request, 'index.html')
-            # return redirect('index')
             return redirect('posts:post-list')
         else:
             return redirect('members:login')
-            # return render(request, 'members/login.html')
-    else:
-        return render(request, 'members/login.html')
+
+    form = LoginForm()
+    context = {
+        'form': form
+    }
+
+    return render(request, 'members/login.html', context)
 
 
 def signup_view(request):
@@ -77,12 +97,7 @@ def signup_view(request):
 
 def logout_view(request):
     """
-    GET 요청으로 처리
-    요청에 있는 사용자를 logout 처리
-    django.contrib.auth.logout 함수를 사용
-
-    URL: /members/logout/
-    Template: 없음
+    로그인 되어있는지 확인하고 로그인 되어있을 경우 logout() 시키기.
     """
     logout(request)
     return redirect('members:login')
