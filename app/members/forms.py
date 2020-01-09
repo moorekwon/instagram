@@ -4,13 +4,19 @@ from django.core.exceptions import ValidationError
 
 
 class SignupForm(forms.Form):
+    email = forms.EmailField()
+    name = forms.CharField()
+    username = forms.CharField()
+    password = forms.CharField(widget=forms.PasswordInput())
+
+    def clean(self):
+        # username과 email 검증로직 넣
+        pass
+
     def save(self):
         """
         Form으로 전달받은 데이터를 사용해서
-        새로운 User를 생성하고 리턴
-
-        username과 emil 검증로직도 이 안에 넣기
-        :return:
+        새로운 User를 생성하고 리턴기\
         """
         pass
 

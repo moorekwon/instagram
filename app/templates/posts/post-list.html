@@ -55,7 +55,7 @@
     {% endif %}
 
     {% for user in post.like_users.all %}
-    <div>좋아요 누른 사용자: {{ user }}</div>
+    <div>좋아요 누른 유저: {{ user }}</div>
     {% endfor %}
 
     <button type="submit">좋아요</button>
@@ -70,7 +70,7 @@
 
 <ul>
     {% for comment in post.postcomment_set.all %}
-    <li><b>{{ comment.author }}</b><span>{{ comment.content }}</span></li>
+    <li><b>{{ comment.author }}</b> <span>{{ comment.content }}</span></li>
     {% endfor %}
 </ul>
 <hr>
