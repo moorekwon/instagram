@@ -32,11 +32,26 @@ def post_list(request):
     return render(request, 'posts/post-list.html', context)
 
 
+def post_list_by_tag(request, tag):
+    # URL: /explore/tags/<str:tag>/
+    # Template: /posts/post-list.html
+    # <tag문자열>인 Tag를 자신(post).tags에 갖고 있는 경우인 Post 목록만 돌려줌
+    # 이 내용 외에는 위 post_list와 내용 동일
+    posts = Post.objects.filter(tags__name__iexact=tag).order_by('-pk')
+    comment_form = CommentCreateForm()
+
+    context = {
+        'posts': posts,
+        'comment_form': comment_form
+    }
+    return render(request, 'posts/post-list.html', context)
+
+
 def post_like(request, pk):
     """
     pk가 pk인 Post와 (변수명 post 사용)
     request.user로 전달되는 User(변수명 user 사용)에 대해
-
+파이썬
     1. PostLike(post=post, user=user)인 PostLike 객체가 존재하는지 확인
     2-1. 만약 해당 객체가 이미 있다면, 삭제
     2-2. 만약 해당 객체가 없다면, 새로 생성
