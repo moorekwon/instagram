@@ -13,6 +13,7 @@ class Post(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     content = models.TextField(blank=True)
 
+    content_html = models.TextField(blank=True)
     tags = models.ManyToManyField('Tag', verbose_name='해시태그 목록', related_name='posts', blank=True)
 
     # PostLike를 통한 Many-to-many 구현
@@ -38,8 +39,14 @@ class Post(models.Model):
         ex) #Django #Python이 온 경우,
         post.tags.all() 시, name이 Django, Python인 Tag 2개 QuerySet이 리턴
         """
+        self.content_html = re.sub(
+            self.TAG_PATTERN,
+            r'<a href="/explore/tags/\g<1>/">#\g<1></a>',
+            self.content
+        )
+
         super().save(*args, **kwargs)
-        self.tags.clear()
+        # self.tags.clear()
 
         # instagram, created = Tag.objects.get_or_create(속성)
         # ManyToManyField.set 사용

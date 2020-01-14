@@ -5,11 +5,14 @@
 <div>
     <a href="{% url 'members:logout-view' %}">로그아웃</a>
 </div>
+<div>
+    <a href="{% url 'posts:post-create' %}">포스트 추가</a>
+</div>
 <br>
 {% for post in posts %}
 <div>작성자: {{ post.author }}</div>
 <div>작성일시: {{ post.created }}</div>
-<div>글내용: {{ post.content }}</div>
+<div>글내용: {{ post.content_html|safe }}</div>
 <br>
 
 <div>
@@ -74,7 +77,5 @@
     {% endfor %}
 </ul>
 <hr>
-
-
 {% endfor %}
 {% endblock %}
