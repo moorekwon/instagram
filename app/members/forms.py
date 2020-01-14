@@ -2,23 +2,60 @@ from django import forms
 from django.contrib.auth import authenticate, login
 from django.core.exceptions import ValidationError
 
+from members.models import User
+
 
 class SignupForm(forms.Form):
-    email = forms.EmailField()
-    name = forms.CharField()
-    username = forms.CharField()
-    password = forms.CharField(widget=forms.PasswordInput())
+    email = forms.EmailField(widget=forms.EmailInput(
+        attrs={
+            'class': 'form-control',
+            'placeholder': '이메일'
+        }))
 
-    def clean(self):
-        # username과 email 검증로직 넣
-        pass
+    name = forms.CharField(widget=forms.TextInput(
+        attrs={
+            'class': 'form-control',
+            'placeholder': '이름'
+        }))
+
+    username = forms.CharField(widget=forms.TextInput(
+        attrs={
+            'class': 'form-control',
+            'placeholder': '사용자명'
+        }))
+
+    password = forms.CharField(widget=forms.PasswordInput(
+        attrs={
+            'class': 'form-control',
+            'placeholder': '비밀번호'
+        }))
+
+    def clean_username(self):
+        # username과 email 검증로직 넣기
+        username = self.cleaned_data['username']
+
+        if User.objects.filter(username=username).exits():
+            raise ValidationError('이미 사용중인 username 입니다.')
+        return username
+
+    def clean_email(self):
+        email = self.cleaned_data['email']
+
+        if User.objects.filter(email=email).exists():
+            raise ValidationError('이미 사용중인 email 입니다.')
+        return email
 
     def save(self):
         """
         Form으로 전달받은 데이터를 사용해서
         새로운 User를 생성하고 리턴기\
         """
-        pass
+        return User.objects.create_user(
+            username=self.cleaned_data['username'],
+            email=self.cleaned_data['email'],
+            password=self.cleaned_data['password'],
+            name=self.cleaned_data['name']
+        )
 
 
 class LoginForm(forms.Form):

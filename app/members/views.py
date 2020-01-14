@@ -53,7 +53,7 @@ def login_view(request):
             return redirect('posts:post-list')
         # 아이디 혹은 비밀번호가 잘못되면 members:login 페이지로 다시 load
         # else:
-        #     # return redirect('members:login')
+        #     return redirect('members:login')
         #
         #     # form.errors가 살아있는 상태 (form 인스턴스가 유지되고 있음)
         #     # 아래 코드와 중복..
@@ -79,13 +79,14 @@ def signup_view(request):
     URL: /
     form: members.forms.SignupForm
 
-    생성에 성공하면,
+    생성에 성공하면, 로그인 처리 후 posts:post-list로 redirect 처리
     """
     if request.method == 'POST':
         form = SignupForm(request.POST)
 
         if form.is_valid():
-            form.save()
+            user = form.save()
+            login(request, user)
             return redirect('posts:post-list')
     else:
         form = SignupForm()

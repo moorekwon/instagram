@@ -14,6 +14,9 @@ class PostCreateForm(forms.Form):
             'multiple': True
         }))
 
+    def save(self):
+        pass
+
 
 class CommentCreateForm(forms.Form):
     content = forms.CharField(max_length=50, widget=forms.Textarea())
