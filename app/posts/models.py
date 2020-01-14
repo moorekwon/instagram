@@ -31,13 +31,9 @@ class Post(models.Model):
             created=self.created
         )
 
-    def save(self, *args, **kwargs):
+    def _save_html(self):
         """
-        Post 객체가 저장될 때, content 값을 분석해서
-        자신의 tags 항목을 적절히 채워줌
-
-        ex) #Django #Python이 온 경우,
-        post.tags.all() 시, name이 Django, Python인 Tag 2개 QuerySet이 리턴
+        content 속성의 값을 사용해 해시태그에 해당하는 문자열을 a 태그로 바꿔줌
         """
         self.content_html = re.sub(
             self.TAG_PATTERN,
@@ -45,9 +41,11 @@ class Post(models.Model):
             self.content
         )
 
-        super().save(*args, **kwargs)
-        # self.tags.clear()
-
+    def _save_tags(self):
+        """
+        content에 포함된 해시태그 문자열(예: #Python)의 Tag들을 만듦
+        자신의 tags Many-to-many field에 추가
+        """
         # instagram, created = Tag.objects.get_or_create(속성)
         # ManyToManyField.set 사용
         tag_name_list = re.findall(self.TAG_PATTERN, self.content)
@@ -57,6 +55,19 @@ class Post(models.Model):
         # for tag_name in tag_name_list:
         #     tag = Tag.objects.get_or_create(name=tag_name)[0]
         #     self.tags.add(tag)
+
+    def save(self, *args, **kwargs):
+        """
+        Post 객체가 저장될 때, content 값을 분석해서
+        자신의 tags 항목을 적절히 채워줌
+
+        ex) #Django #Python이 온 경우,
+        post.tags.all() 시, name이 Django, Python인 Tag 2개 QuerySet이 리턴
+        """
+        self._save_html()
+        super().save(*args, **kwargs)
+        self._save_tags()
+        # self.tags.clear()
 
 
 class PostImage(models.Model):
