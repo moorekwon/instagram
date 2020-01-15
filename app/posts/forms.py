@@ -22,4 +22,4 @@ class CommentCreateForm(forms.Form):
     comment = forms.CharField(max_length=50, widget=forms.Textarea())
 
     def save(self, post, author):
-        post.postcomment_set.create(author=author, content=self.cleaned_data['content'])
+        post.postcomment_set.create(author=author, content=self.cleaned_data['comment'])
