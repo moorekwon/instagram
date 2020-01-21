@@ -6,6 +6,15 @@ DEST_SOURCE="/home/ubuntu/projects/instagram"
 SSH_CMD="ssh -i ${IDENTITY_FILE} ${HOST}"
 
 echo "== runserver 배포 =="
+
+# 숙제
+# 다시 실행되는 서버 만들기
+# > HOST만 바꾸고 이 스크립트를 실행하면 전체 서버가 세팅되고 runserver된 화면 볼 수 있도록 하기
+
+# pip freeze
+echo "pip freeze"
+
+
 # 기존 폴더 삭제
 echo "1. 기존 폴더 삭제"
 ${SSH_CMD} sudo rm -rf S{DEST_SOURCE}
@@ -15,6 +24,10 @@ ${SSH_CMD} sudo rm -rf S{DEST_SOURCE}
 echo "2. 로컬 파일 업로드"
 scp -q -i "${IDENTITY_FILE}" -r "${ORIGIN_SOURCE}" ${HOST}:${DEST_SOURCE}
 #scp -i ~/.ssh/wps12th.pem -r ~/projects/wps12th/instagram ubuntu@13.125.213.68:/home/ubuntu/projects/
+
+# pip install
+echo "pip install"
+
 
 echo "3. Screen 실행"
 # 실행중이던 screen 세션 종료
