@@ -13,7 +13,7 @@ echo "== runserver 배포 =="
 
 # pip freeze
 echo "pip freeze"
-
+"$HOME"/.pyenv/versions/3.7.5/envs/wps-instagram-env/bin/pip freeze > "$HOME"/projects/wps12th/instagram/requirements.txt
 
 # 기존 폴더 삭제
 echo "1. 기존 폴더 삭제"
@@ -27,7 +27,7 @@ scp -q -i "${IDENTITY_FILE}" -r "${ORIGIN_SOURCE}" ${HOST}:${DEST_SOURCE}
 
 # pip install
 echo "pip install"
-
+${SSH_CMD} pip3 install -q -r /home/ubuntu/projects/instagram/requirements
 
 echo "3. Screen 실행"
 # 실행중이던 screen 세션 종료
