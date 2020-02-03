@@ -34,7 +34,7 @@ class SignupForm(forms.Form):
         # username과 email 검증로직 넣기
         username = self.cleaned_data['username']
 
-        if User.objects.filter(username=username).exits():
+        if User.objects.filter(username=username).exists():
             raise ValidationError('이미 사용중인 username 입니다.')
         return username
 

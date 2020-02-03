@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/2.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/2.2/ref/settings/
 """
-
+import json
 import os
 
 # instagram/app/
@@ -39,6 +39,28 @@ MEDIA_ROOT = os.path.join(ROOT_DIR, '.media')
 # http:// localhost:8000 /media/ posts/images/~.~
 MEDIA_URL = '/media/'
 
+# secrets.json 불러오기
+SECRETS = json.load(open(os.path.join(ROOT_DIR, '.secrets.json')))
+
+# django-storages
+# Django의 FileStorage로 S3Boto3Storage(AWS의 S3) 사용
+# DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+
+# instagram/secrets.json 파일을 읽어서
+# 파이썬 객체로 만든 다음
+#   1. 아래 있는 AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY 값들을 적절히 채워줌
+#   2. DATABASE 쪽 비밀 정보
+#   3. naver_login에 있는 client_id, client_secret
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+
+AWS_ACCESS_KEY_ID = SECRETS['AWS_ACCESS_KEY_ID']
+AWS_SECRET_ACCESS_KEY = SECRETS['AWS_SECRET_ACCESS_KEY']
+
+AWS_STORAGE_BUCKET_NAME = 'database-wps'
+AWS_DEFAULT_ACL = 'private'
+AWS_AUTO_CREATE_BUCKET = True
+AWS_S3_REGION_NAME = 'ap-northeast-2'
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
@@ -51,12 +73,10 @@ DEBUG = True
 ALLOWED_HOSTS = [
     'localhost',
     '127.0.0.1',
-    '172.16.1.116',
-    '13.125.213.68',
-    '15.164.217.205'
+    '15.164.218.69',
+    '*'
 ]
 AUTH_USER_MODEL = 'members.User'
-
 
 # Application definition
 
@@ -104,17 +124,10 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'config.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
-}
-
+DATABASES = SECRETS['DATABASES']
 
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
@@ -134,7 +147,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/2.2/topics/i18n/
 
@@ -147,5 +159,3 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
-
-

@@ -5,6 +5,7 @@ from django.shortcuts import render, redirect
 
 # from .models import User
 # 장고 기본 유저나 Custom 유저 모델 중, 사용중인 User 모델
+from config.settings import SECRETS
 from members.forms import LoginForm, SignupForm
 
 User = get_user_model()
@@ -69,7 +70,7 @@ def login_view(request):
 
     login_params = {
         'response_type': 'code',
-        'client_id': 'moCHcPIhgkyp7ZJdkLmB',
+        'client_id': SECRETS['CLIENT_ID'],
         'redirect_uri': 'http://localhost:8000/members/naver-login/',
         'state': 'RANDOM_STATE'
     }
@@ -167,8 +168,8 @@ def naver_login(request):
 
     token_params = {
         'grant_type': 'authorization_code',
-        'client_id': 'moCHcPIhgkyp7ZJdkLmB',
-        'client_secret': 'CnH33spJuB',
+        'client_id': SECRETS['CLIENT_ID'],
+        'client_secret': SECRETS['CLIENT_SECRET'],
         'code': code,
         'state': state,
         'redirectURI': 'http://localhost:8000/members/naver-login/'
