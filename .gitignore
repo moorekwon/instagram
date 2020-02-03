@@ -6,6 +6,10 @@
 # gitignore template for Jupyter Notebooks
 # website: http://jupyter.org/
 
+/requirements.txt
+/.secrets.json
+/.dockerignore
+
 .ipynb_checkpoints
 */.ipynb_checkpoints/*
 
