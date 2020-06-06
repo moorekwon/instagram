@@ -115,7 +115,7 @@ description = "A high-level Python Web framework that encourages rapid developme
 name = "django"
 optional = false
 python-versions = ">=3.5"
-version = "2.2.9"
+version = "2.2.13"
 
 [package.dependencies]
 pytz = "*"
@@ -772,6 +772,7 @@ backcall = [
 ]
 bleach = [
     {file = "bleach-3.1.0-py2.py3-none-any.whl", hash = "sha256:213336e49e102af26d9cde77dd2d0397afabc5a6bf2fed985dc35b5d1e285a16"},
+    {file = "bleach-3.1.0-py3.8.egg", hash = "sha256:4ca3ec10244c9f11ec129b054912e8bc9ecefc2e0b6bf0dab273f0e72cf381e4"},
     {file = "bleach-3.1.0.tar.gz", hash = "sha256:3fdf7f77adcf649c9911387df51254b813185e32b2c6619f690b593a617e19fa"},
 ]
 boto3 = [
@@ -803,8 +804,8 @@ defusedxml = [
     {file = "defusedxml-0.6.0.tar.gz", hash = "sha256:f684034d135af4c6cbb949b8a4d2ed61634515257a67299e5f940fbaa34377f5"},
 ]
 django = [
-    {file = "Django-2.2.9-py3-none-any.whl", hash = "sha256:687c37153486cf26c3fdcbdd177ef16de38dc3463f094b5f9c9955d91f277b14"},
-    {file = "Django-2.2.9.tar.gz", hash = "sha256:662a1ff78792e3fd77f16f71b1f31149489434de4b62a74895bd5d6534e635a5"},
+    {file = "Django-2.2.13-py3-none-any.whl", hash = "sha256:e8fe3c2b2212dce6126becab7a693157f1a441a07b62ec994c046c76af5bb66d"},
+    {file = "Django-2.2.13.tar.gz", hash = "sha256:84f370f6acedbe1f3c41e1a02de44ac206efda3355e427139ecb785b5f596d80"},
 ]
 django-extensions = [
     {file = "django-extensions-2.2.6.tar.gz", hash = "sha256:936e8e3962024d3c75ea54f4e0248002404ca7ca7fb698430e60b06b5555b4e7"},
